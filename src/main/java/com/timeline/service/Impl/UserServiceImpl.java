@@ -58,9 +58,10 @@ public class UserServiceImpl implements UserService {
             throw new BussinessException(EmBussinessError.PARAMETER_VALIDATION_ERROR, result.getErrorMessage());
         }
         UserInfo userInfo = getUserInfoFromUserModel(userModel);
-
+        if(userDao.findByEmail(userInfo.getEmail())!=null){
+            throw new BussinessException(EmBussinessError.USER_REGISTER_FAIL);
+        }
         userDao.save(userInfo);
-
         userModel.setUserId(userInfo.getUserId());
         UserLogin userLogin = getUserLoginFromUserModel(userModel);
         userLoginDao.save(userLogin);

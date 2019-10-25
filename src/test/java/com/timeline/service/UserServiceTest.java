@@ -7,6 +7,9 @@ import com.timeline.service.Impl.UserServiceImpl;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,28 +31,28 @@ class UserServiceTest {
 
     @Test
     void getUserModelByUserId() {
-        UserModel userModel = userService.getUserModelByUserId(7);
-        System.out.println(userModel.getEncryptPassword());
-        assertEquals(userModel.getEmail(), "18717826762");
+        UserModel userModel = userService.getUserModelByUserId(33);
+        assertEquals(userModel.getEmail(), "1002376198@qq.com");
+        userModel = userService.getUserModelByUserId(null);
+        assertNull(userModel);
     }
 
     @Test
     void register() {
+        assertThrows(BussinessException.class, () -> userService.register(null));
+
         UserModel userModel = new UserModel();
         userModel.setName("123");
         userModel.setGender((byte) 1);
         userModel.setEmail("18717826762");
+        assertThrows(BussinessException.class, () -> userService.register(userModel));
         String password = "123456";
         String encryptPassword = UserServiceImpl.getMD5(password);
         userModel.setEncryptPassword(encryptPassword);
         try {
             userService.register(userModel);
-        } catch (DataIntegrityViolationException | BussinessException e) {
-            if (e instanceof DataIntegrityViolationException) {
-                logger.error("手机号已经注册");
-            } else {
-                logger.error(((BussinessException) e).getErrorMessage());
-            }
+        } catch (BussinessException e) {
+            logger.error(((BussinessException) e).getErrorMessage());
         }
 
     }
@@ -57,8 +60,15 @@ class UserServiceTest {
     @Test
     void validateLogin() {
         try {
-            UserModel userModel = userService.validateLogin("18717826762", "123456");
-            assertEquals("123", userModel.getName());
+            assertNull(userService.validateLogin(null, null));
+        } catch (BussinessException e) {
+            e.printStackTrace();
+        }
+        assertThrows(BussinessException.class, () -> userService.validateLogin("123", "123"));
+        assertThrows(BussinessException.class, () -> userService.validateLogin("1002376198@qq.com", "12356"));
+        try {
+            UserModel userModel = userService.validateLogin("1428651289@qq.com", "123456");
+            assertEquals("tjxtjx", userModel.getName());
         } catch (BussinessException e) {
             System.out.println(e.getErrorMessage());
             e.printStackTrace();

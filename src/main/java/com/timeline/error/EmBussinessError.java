@@ -6,9 +6,10 @@ public enum EmBussinessError implements CommonError{
     UNKNOWN_ERROR(20001,"未知错误"),
     //10000开头为用户信息相关错误定义
     USER_NOT_EXIST(30001,"用户不存在"),
-    USER_LOGIN_FAIL(30002,"用户手机号或者密码不正确"),
+    USER_LOGIN_FAIL(30002,"用户邮箱或者密码不正确"),
     USER_NOT_LOGIN(30003,"用户还未登录"),
-    USER_REGISTER_FAIL(40001,"电话号码已经注册")
+    USER_REGISTER_FAIL(40001,"该邮箱已经注册，请直接登录"),
+    MESSAGE_SEND_FAIL(50001,"消息发送失败，内容不能为空")
     ;
 
     private int errorCode;

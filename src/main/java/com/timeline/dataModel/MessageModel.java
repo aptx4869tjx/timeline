@@ -7,8 +7,22 @@ public class MessageModel {
     private Long messageId;
     private String content;
     private LocalDateTime time;
-    private Integer userId;
+    private Integer senderId;
+    private Integer receiverId;
     private Duration duration;
+
+    public MessageModel() {
+    }
+
+    public MessageModel(String content) {
+        this.content = content;
+    }
+
+    public MessageModel(String content, Integer senderId, Integer receiverId) {
+        this.content = content;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+    }
 
     public Long getMessageId() {
         return messageId;
@@ -34,12 +48,20 @@ public class MessageModel {
         this.time = time;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getSenderId() {
+        return senderId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setSenderId(Integer senderId) {
+        this.senderId = senderId;
+    }
+
+    public Integer getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(Integer receiverId) {
+        this.receiverId = receiverId;
     }
 
     public Duration getDuration() {
