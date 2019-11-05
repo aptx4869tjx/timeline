@@ -11,6 +11,7 @@ public class MessageTrans {
         this.content = content;
     }
 
+
     public Integer getSenderId() {
         return senderId;
     }
@@ -37,6 +38,5 @@ public class MessageTrans {
 
     public MessageTrans(String content) {
         this.content = content;
-
     }
 }

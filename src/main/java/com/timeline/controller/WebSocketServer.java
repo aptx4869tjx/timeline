@@ -16,6 +16,7 @@ import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 
@@ -73,6 +74,8 @@ public class WebSocketServer {
         logger.info("/topic/getResponse 已订阅");
         return CommonReturnType.create(null);
     }
+
+
 }
 
 
