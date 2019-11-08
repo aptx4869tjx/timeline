@@ -10,6 +10,7 @@ public class Message {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long messageId;
+    private String title;
     private String content;
     private LocalDateTime time;
     private Integer senderId;
@@ -21,6 +22,14 @@ public class Message {
 
     public void setMessageId(Long messageId) {
         this.messageId = messageId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {

@@ -20,6 +20,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import java.security.Principal;
+import java.util.Objects;
 
 @Configuration
 // @EnableWebSocketMessageBroker注解用于开启使用STOMP协议来传输基于代理（MessageBroker）的消息，这时候控制器（controller）
@@ -50,9 +51,8 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 //1、判断是否首次连接
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
 //2、判断用户名和密码
-                    String username = accessor.getNativeHeader("username").get(0);
-                    String password = accessor.getNativeHeader("password").get(0);
-//                    if ("aaaaaa".equals(username) && "admin".equals(password)) {
+                    String username = Objects.requireNonNull(accessor.getNativeHeader("userId")).get(0);
+                    String password = Objects.requireNonNull(accessor.getNativeHeader("password")).get(0);
                         Principal principal = new Principal() {
                             @Override
                             public String getName() {
@@ -61,11 +61,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
                         };
                         accessor.setUser(principal);
                         return message;
-//                    } else {
-//                        return null;
-//                    }
                 }
-//不是首次连接，已经登陆成功
                 return message;
             }
         });

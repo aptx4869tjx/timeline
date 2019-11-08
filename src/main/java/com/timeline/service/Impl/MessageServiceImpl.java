@@ -22,10 +22,10 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Message saveMessage(MessageTrans messageTrans) throws BussinessException {
-        if (messageTrans.getSenderId() == null || messageTrans.getReceiverId() == null || messageTrans.getContent() == null) {
+        if (messageTrans.getSenderId() == null || messageTrans.getReceiverId() == null ||messageTrans.getTitle()==null|| messageTrans.getContent() == null) {
             throw new BussinessException(EmBussinessError.PARAMETER_VALIDATION_ERROR);
         }
-        if (messageTrans.getContent().equals("")) {
+        if (messageTrans.getContent().equals("")||messageTrans.getTitle().equals("")) {
             throw new BussinessException(EmBussinessError.MESSAGE_SEND_FAIL);
         }
         Message message = new Message();

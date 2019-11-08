@@ -9,4 +9,16 @@ class UserControllerTest {
     @Test
     void login() {
     }
+
+    @Test
+    void logout() {
+    }
+
+    @Test
+    void register() {
+    }
+
+    @Test
+    void getAllMessage() {
+    }
 }
