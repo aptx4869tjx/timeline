@@ -51,6 +51,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 //1、判断是否首次连接
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
 //2、判断用户名和密码
+                    System.out.println("第一次登录");
                     String username = Objects.requireNonNull(accessor.getNativeHeader("userId")).get(0);
                     String password = Objects.requireNonNull(accessor.getNativeHeader("password")).get(0);
                         Principal principal = new Principal() {
@@ -62,6 +63,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
                         accessor.setUser(principal);
                         return message;
                 }
+                System.out.println("不是第一次");
                 return message;
             }
         });

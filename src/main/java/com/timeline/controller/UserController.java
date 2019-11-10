@@ -50,7 +50,7 @@ public class UserController extends BaseController {
         httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
         httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
         logger.info(userModel.getName()+"登录了timeline系统");
-        return CommonReturnType.create(null);
+        return CommonReturnType.create(userModel);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/logout")
