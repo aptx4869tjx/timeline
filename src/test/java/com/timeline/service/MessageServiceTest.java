@@ -41,7 +41,7 @@ class MessageServiceTest {
 
     @Test
     void getAllMessage() {
-        List<Message> messages = messageService.getAllMessage();
+        List<Message> messages = messageService.getMessages(1);
         for (Message m :
                 messages) {
             System.out.println(m.getContent());

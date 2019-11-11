@@ -16,6 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,9 +80,12 @@ public class UserController extends BaseController {
         return CommonReturnType.create(null);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/messages")
-    public CommonReturnType getAllMessage() throws BussinessException {
-        List<Message> messages = messageService.getAllMessage();
+    @RequestMapping(method = RequestMethod.GET, value = "/messages/{times}")
+    public CommonReturnType getAllMessage(@PathVariable("times")Integer times) throws BussinessException {
+        List<Message> messages = messageService.getMessages(times);
+        if(messages==null){
+            return CommonReturnType.create(null);
+        }
         Stream<Message> messageStream = messages.stream();
         Stream<MessageVO> messageVOStream = messageStream.map(this::getMessageVOFromMessage);
         List<MessageVO> messageVOList;

@@ -9,6 +9,9 @@ import com.timeline.error.EmBussinessError;
 import com.timeline.service.MessageService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -38,7 +41,9 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> getAllMessage() {
-        return messageDao.findAll();
+    public List<Message> getMessages(Integer times) {
+        Sort sort = new Sort(Sort.Direction.DESC, "messageId");
+        Pageable pageable = new PageRequest(times, 5, sort);
+        return messageDao.findAll(pageable).getContent();
     }
 }
