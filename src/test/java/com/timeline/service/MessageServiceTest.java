@@ -4,6 +4,7 @@ import com.timeline.TimelineApplication;
 import com.timeline.dataModel.MessageTrans;
 import com.timeline.dataObject.Message;
 import com.timeline.error.BussinessException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -26,14 +27,18 @@ class MessageServiceTest {
     @Test
     void saveMessage() {
         MessageTrans messageTrans = new MessageTrans(null, null, null);
-        assertThrows(BussinessException.class, () ->messageService.saveMessage(messageTrans));
+        assertThrows(BussinessException.class, () -> messageService.saveMessage(messageTrans));
         messageTrans.setSenderId(33);
-        messageTrans.setReceiverId(35);
+        messageTrans.setReceiverId(-1);
         messageTrans.setContent("");
-        assertThrows(BussinessException.class, () ->messageService.saveMessage(messageTrans));
+        assertThrows(BussinessException.class, () -> messageService.saveMessage(messageTrans));
+        messageTrans.setTitle("");
+        assertThrows(BussinessException.class, () -> messageService.saveMessage(messageTrans));
         messageTrans.setContent("content");
+        messageTrans.setTitle("title");
         try {
-            messageService.saveMessage(messageTrans);
+            Message message=messageService.saveMessage(messageTrans);
+            Assertions.assertEquals(33,message.getSenderId().intValue());
         } catch (BussinessException e) {
             logger.error(e.getErrorMessage());
         }

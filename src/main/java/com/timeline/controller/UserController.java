@@ -52,7 +52,7 @@ public class UserController extends BaseController {
         UserModel userModel = userService.validateLogin(email, password);
         httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
         httpServletRequest.getSession().setAttribute("LOGIN_USER", userModel);
-        logger.info(userModel.getName()+"登录了timeline系统");
+        logger.info(userModel.getName() + "登录了timeline系统");
         return CommonReturnType.create(userModel);
     }
 
@@ -81,9 +81,9 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/messages/{times}")
-    public CommonReturnType getAllMessage(@PathVariable("times")Integer times) throws BussinessException {
+    public CommonReturnType getAllMessage(@PathVariable("times") Integer times) throws BussinessException {
         List<Message> messages = messageService.getMessages(times);
-        if(messages==null){
+        if (messages == null || messages.size() == 0) {
             return CommonReturnType.create(null);
         }
         Stream<Message> messageStream = messages.stream();

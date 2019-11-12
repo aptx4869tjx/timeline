@@ -42,14 +42,16 @@ class UserServiceTest {
         assertThrows(BussinessException.class, () -> userService.register(null));
 
         UserModel userModel = new UserModel();
-        userModel.setName("123");
+        userModel.setName("account");
         userModel.setGender((byte) 1);
-        userModel.setEmail("18717826762@qq.com");
+        userModel.setEmail("1002376198@qq.com");
         assertThrows(BussinessException.class, () -> userService.register(userModel));
         String password = "123456";
         String encryptPassword = UserServiceImpl.getMD5(password);
         userModel.setEncryptPassword(encryptPassword);
+        assertThrows(BussinessException.class,()->userService.register(userModel));
         try {
+            userModel.setEmail("18717826762@qq.com");
             userService.register(userModel);
         } catch (BussinessException e) {
             logger.error(((BussinessException) e).getErrorMessage());
