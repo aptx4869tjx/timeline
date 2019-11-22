@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface MessageService {
     Message saveMessage(MessageTrans messageTrans) throws BussinessException;
-    List<Message> getMessages(Integer times);
+    List<Message> getMessages(Integer times) throws BussinessException;
 }

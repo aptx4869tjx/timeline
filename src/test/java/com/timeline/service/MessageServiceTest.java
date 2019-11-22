@@ -6,6 +6,9 @@ import com.timeline.dataObject.Message;
 import com.timeline.error.BussinessException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,12 +48,54 @@ class MessageServiceTest {
         }
     }
 
+    @ParameterizedTest(name = "The [{index}] saveMessageTest")
+    @MethodSource(value = "messageTransProvider")
+    void testSaveMessage(MessageTrans messageTrans){
+        try {
+            Message message=messageService.saveMessage(messageTrans);
+            Assertions.assertEquals(33,message.getSenderId().intValue());
+        } catch (BussinessException e) {
+            logger.error(e.getErrorMessage());
+        }
+    }
+    private static List<MessageTrans> messageTransProvider(){
+        MessageTrans messageTrans = new MessageTrans(null, null, null,null);
+        MessageTrans messageTrans1 = new MessageTrans(33, -1, "",null);
+        MessageTrans messageTrans2 = new MessageTrans(33,-1,"","");
+        MessageTrans messageTrans3 = new MessageTrans(33,-1,"title","content");
+        return Arrays.asList(messageTrans,messageTrans1,messageTrans2,messageTrans3);
+    }
+
+
     @Test
     void getAllMessage() {
-        List<Message> messages = messageService.getMessages(1);
-        for (Message m :
-                messages) {
-            System.out.println(m.getContent());
+        List<Message> messages = null;
+        try {
+            messages = messageService.getMessages(1);
+            for (Message m :
+                    messages) {
+                System.out.println(m.getContent());
+            }
+        } catch (BussinessException e) {
+            e.printStackTrace();
         }
+
+    }
+
+    @ParameterizedTest(name = "The [{index}] testGetMessages")
+    @ValueSource(ints = {0,1,2,3})
+    void testGetMessages(int times){
+        List<Message> messages = null;
+        try {
+            messages = messageService.getMessages(times);
+            for (Message m :
+                    messages) {
+                assertNotNull(m.getContent());
+                System.out.println(m.getTime());
+            }
+        } catch (BussinessException e) {
+            e.printStackTrace();
+        }
+
     }
 }

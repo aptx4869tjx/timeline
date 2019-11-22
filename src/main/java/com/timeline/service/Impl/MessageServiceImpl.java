@@ -41,7 +41,10 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> getMessages(Integer times) {
+    public List<Message> getMessages(Integer times) throws BussinessException {
+        if(times==null){
+            throw new BussinessException(EmBussinessError.PARAMETER_VALIDATION_ERROR);
+        }
         Sort sort = new Sort(Sort.Direction.DESC, "messageId");
         Pageable pageable = new PageRequest(times, 5, sort);
         return messageDao.findAll(pageable).getContent();

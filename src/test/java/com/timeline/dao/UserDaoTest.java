@@ -21,4 +21,10 @@ class UserDaoTest {
         System.out.println(userInfo.getEmail());
         Assertions.assertEquals(userInfo.getEmail(),"1002376198@qq.com");
     }
+
+    @Test
+    void findByEmail(){
+        UserInfo userInfo  = userDao.findByEmail("1002376198@qq.com");
+        Assertions.assertEquals(33,userInfo.getUserId().intValue());
+    }
 }
