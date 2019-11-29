@@ -78,6 +78,7 @@ class MessageServiceTest {
             messages = messageService.getMessages(1);
             for (Message m :
                     messages) {
+                assertNotNull(m.getContent());
                 System.out.println(m.getContent());
             }
         } catch (BussinessException e) {
