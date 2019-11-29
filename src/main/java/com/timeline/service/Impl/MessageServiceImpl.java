@@ -25,10 +25,10 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Message saveMessage(MessageTrans messageTrans) throws BussinessException {
-        if (messageTrans.getSenderId() == null || messageTrans.getReceiverId() == null ||messageTrans.getTitle()==null|| messageTrans.getContent() == null) {
+        if (messageTrans.getSenderId() == null || messageTrans.getReceiverId() == null || messageTrans.getTitle() == null || messageTrans.getContent() == null) {
             throw new BussinessException(EmBussinessError.PARAMETER_VALIDATION_ERROR);
         }
-        if (messageTrans.getContent().equals("")||messageTrans.getTitle().equals("")) {
+        if (messageTrans.getContent().equals("") || messageTrans.getTitle().equals("")) {
             throw new BussinessException(EmBussinessError.MESSAGE_SEND_FAIL);
         }
         Message message = new Message();
@@ -42,7 +42,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<Message> getMessages(Integer times) throws BussinessException {
-        if(times==null){
+        if (times == null) {
             throw new BussinessException(EmBussinessError.PARAMETER_VALIDATION_ERROR);
         }
         Sort sort = new Sort(Sort.Direction.DESC, "messageId");

@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -50,8 +51,13 @@ class UserControllerTest {
         String json = JSONObject.toJSONString(map);
         mockMvc.perform(post("/user/login").contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
+                .andExpect(content().json("{'status':'success'}"))//期望成功登录
                 .andDo(print());
-
+        map.put("password","123");//将密码修改为错误密码
+        mockMvc.perform(post("/user/login"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{'status':'fail'}"))//希望登录失败
+                .andDo(print());
     }
 
     @Test
@@ -69,12 +75,14 @@ class UserControllerTest {
         map.put("password", "123456");
         String json = JSONObject.toJSONString(map);
         mockMvc.perform(post("/user/register").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
-                .andExpect(status().isOk())
+                .andExpect(status().isOk())//http状态为200
+                .andExpect(content().json("{'status':'fail'}"))//返回内容的状态为fail，表示注册失败，因为邮箱已经注册
                 .andDo(print());
         map.put("email","2233@33");
         json = JSONObject.toJSONString(map);
         mockMvc.perform(post("/user/register").contentType(MediaType.APPLICATION_JSON_UTF8).content(json))
                 .andExpect(status().isOk())
+                .andExpect(content().json("{'status':'fail'}"))
                 .andDo(print());
     }
 

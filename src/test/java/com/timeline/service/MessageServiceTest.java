@@ -28,6 +28,7 @@ class MessageServiceTest {
     MessageService messageService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    //没有使用参数化测试存储消息的功能
     @Test
     void saveMessage() {
         MessageTrans messageTrans = new MessageTrans(null, null, null);
@@ -48,6 +49,7 @@ class MessageServiceTest {
         }
     }
 
+    //使用参数化测试存储消息的功能
     @ParameterizedTest(name = "The [{index}] saveMessageTest")
     @MethodSource(value = "messageTransProvider")
     void testSaveMessage(MessageTrans messageTrans){
@@ -58,6 +60,7 @@ class MessageServiceTest {
             logger.error(e.getErrorMessage());
         }
     }
+    //数据提供源
     private static List<MessageTrans> messageTransProvider(){
         MessageTrans messageTrans = new MessageTrans(null, null, null,null);
         MessageTrans messageTrans1 = new MessageTrans(33, -1, "",null);
@@ -67,6 +70,7 @@ class MessageServiceTest {
     }
 
 
+    //没有使用参数化测试获取消息的功能
     @Test
     void getAllMessage() {
         List<Message> messages = null;
@@ -81,7 +85,7 @@ class MessageServiceTest {
         }
 
     }
-
+    //使用了参数化测试获取消息的功能
     @ParameterizedTest(name = "The [{index}] testGetMessages")
     @ValueSource(ints = {0,1,2,3})
     void testGetMessages(int times){
